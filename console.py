@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 class HBNBCommand(cmd.Cmd):
 	intro = ''
 	prompt = '(hbnb) '
-	classes = ["BaseModel"]
+	classes = ["BaseModel", "User"]
 
 
 	# ----- Basic HBNB commands -----
@@ -64,6 +64,7 @@ class HBNBCommand(cmd.Cmd):
 				print("** class doesn't exist **")
 				return
 			else:
+				print(models.storage.all())
 				for key, value in models.storage.all().items():
 					if arg in key:
 						r.append(value.__str__())
