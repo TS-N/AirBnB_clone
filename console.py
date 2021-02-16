@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" This is the console for HBnB project
+that allow interaction with database from terminal """
 import cmd
 import models
 import shlex
