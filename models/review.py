@@ -1,16 +1,15 @@
 #!/usr/bin/python3
-""" This module defines User object in our HBnB """
+""" This module defines Review object in our HBnB """
 from models.base_model import BaseModel
 
 
-class User(BaseModel):
-    """ User class
+class Review(BaseModel):
+    """ Review class
         Based on BaseModel
     """
-    email = ""
-    password = ""
-    first_name = ""
-    last_name = ""
+    place_id = ""
+    user_id = ""
+    text = ""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

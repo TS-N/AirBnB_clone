@@ -9,6 +9,22 @@ of our objects
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+
+class_d = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "City": City,
+            "State": State,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review
+            }
 
 
 class FileStorage:
@@ -42,6 +58,6 @@ class FileStorage:
             with open(self.__file_path, "r") as f:
                 d = json.loads(f.read())
                 for key, value in d.items():
-                    self.__objects[key] = BaseModel(**value)
+                    self.__objects[key] = class_d[key.split('.')[0]](**value)
         except:
             pass

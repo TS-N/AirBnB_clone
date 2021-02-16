@@ -3,6 +3,12 @@ import cmd
 import models
 import shlex
 from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -12,7 +18,15 @@ class HBNBCommand(cmd.Cmd):
     """
     intro = ''
     prompt = '(hbnb) '
-    classes = ["BaseModel", "User"]
+    classes = [
+                "BaseModel",
+                "User",
+                "City",
+                "State",
+                "Amenity",
+                "Place",
+                "Review"
+                ]
 
     # ----- Basic HBNB commands -----
     def do_create(self, arg):
@@ -20,12 +34,13 @@ class HBNBCommand(cmd.Cmd):
                 and prints the id.
             Ex: $ create BaseModel
         """
-        if arg == "":
+        a = parse(arg)
+        if a == []:
             print("** class name missing **")
-        elif arg not in self.classes:
+        elif a[0] not in self.classes:
             print("** class doesn't exist **")
         else:
-            n = BaseModel()
+            n = eval(a[0] + "()")
             n.save()
             print(n.id)
 
@@ -78,7 +93,6 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             else:
-                print(models.storage.all())
                 for key, value in models.storage.all().items():
                     if arg in key:
                         r.append(value.__str__())
