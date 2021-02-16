@@ -139,6 +139,10 @@ class HBNBCommand(cmd.Cmd):
         """ Quit command to exit the program """
         return True
 
+    def emptyline(self):
+        """ Do nothing if empty line is passed """
+        pass
+
 
 def parse(arg):
     """ Convert a series of zero or more space separated strings to a list """
