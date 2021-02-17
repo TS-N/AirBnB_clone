@@ -2,6 +2,7 @@
 """ This is the console for HBnB project
 that allow interaction with database from terminal """
 import cmd
+import re
 import models
 import shlex
 from models.base_model import BaseModel
@@ -29,6 +30,17 @@ class HBNBCommand(cmd.Cmd):
                 "Place",
                 "Review"
                 ]
+
+    def onecmd(self, s):
+        x = re.compile('^[A-Z][A-Za-z]+\.[a-z]+\(.*\)$')
+        if x.match(s):
+            l = sp_parse(s)
+            newstr = l[0][1] + ' ' + l[0][0]
+            for i in range(0, len(l[1])):
+                newstr += ' ' + l[1][i]
+            return cmd.Cmd.onecmd(self, newstr)
+        else:
+            return cmd.Cmd.onecmd(self, s)
 
     # ----- Basic HBNB commands -----
     def do_create(self, arg):
@@ -90,13 +102,14 @@ class HBNBCommand(cmd.Cmd):
             Ex: $ all BaseModel or $ all.
         """
         r = []
-        if arg:
-            if arg not in self.classes:
+        a = parse(arg)
+        if a != []:
+            if a[0] not in self.classes:
                 print("** class doesn't exist **")
                 return
             else:
                 for key, value in models.storage.all().items():
-                    if arg in key:
+                    if a[0] in key:
                         r.append(value.__str__())
         else:
             for key, value in models.storage.all().items():
@@ -129,6 +142,7 @@ class HBNBCommand(cmd.Cmd):
                 setattr(ob, a[2],  a[3])
                 ob.save
 
+
     # ------
 
     def do_quit(self, arg):
@@ -147,6 +161,14 @@ class HBNBCommand(cmd.Cmd):
 def parse(arg):
     """ Convert a series of zero or more space separated strings to a list """
     return shlex.split(arg)
+
+def sp_parse(arg):
+    """ Convert a string of format User.all() to all User """
+    a = arg.split('(')
+    a[0] = a[0].split('.')
+    a[1] = a[1][:-1]
+    a[1] = a[1].split(',')
+    return a
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
