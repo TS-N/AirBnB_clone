@@ -158,9 +158,6 @@ class HBNBCommand(cmd.Cmd):
                     cnt += 1
             print(cnt)
 
-
-
-
     # ------
 
     def do_quit(self, arg):
@@ -179,6 +176,7 @@ class HBNBCommand(cmd.Cmd):
 def parse(arg):
     """ Convert a series of zero or more space separated strings to a list """
     return shlex.split(arg)
+
 
 def sp_parse(arg):
     """ Convert a string of format User.all() to all User """
